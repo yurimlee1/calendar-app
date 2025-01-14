@@ -1,15 +1,74 @@
+"use client";
 import React from "react";
 import { Button } from "../ui/button";
 import { Menu } from "lucide-react";
-import Image from "next/image"
+import Image from "next/image";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
+import { useDateStore, useViewStore } from "@/lib/store";
+import dayjs from "dayjs";
 
 export default function HeaderLeft() {
+  const today = dayjs();
+  const { userSelectedDate, setDate, setMonth, selectedMonthIndex } =
+    useDateStore();
+  const { selectedView } = useViewStore();
+
+  const handleTodayClick = () => {
+    switch (selectedView) {
+      case "month":
+        setMonth(dayjs().month());
+        break;
+      case "week":
+        setDate(today);
+        break;
+      case "day":
+        setDate(today);
+        setMonth(dayjs().month());
+        break;
+      default:
+        break;
+    }
+  };
+
+  const handlePrevClick = () => {
+    switch (selectedView) {
+      case "month":
+        setMonth(selectedMonthIndex - 1);
+        break;
+      case "week":
+        setDate(userSelectedDate.subtract(1, "week"));
+        break;
+      case "day":
+        setDate(userSelectedDate.subtract(1, "day"));
+        break;
+      default:
+        break;
+    }
+  };
+
+  const handleNextClick = () => {
+    switch (selectedView) {
+      case "month":
+        setMonth(selectedMonthIndex + 1);
+        break;
+      case "week":
+        setDate(userSelectedDate.add(1, "week"));
+        break;
+      case "day":
+        setDate(userSelectedDate.add(1, "day"));
+        break;
+      default:
+        break;
+    }
+  };
+
+  const dateDisplay = selectedView == "day";
+
   return (
     <div className="flex items-center gap-3">
       {/* sidebar toggle and calendar icon */}
-      <div className="hidden items-center lg:flex gap-1">
+      <div className="hidden items-center gap-1 lg:flex">
         <Button variant="ghost" className="rounded-full p-2">
           <Menu className="size-6" />
         </Button>
@@ -19,22 +78,32 @@ export default function HeaderLeft() {
       </div>
 
       {/* today button */}
-      <Button variant='outline'>Today</Button>
+      <Button variant="outline" onClick={handleTodayClick}>
+        Today
+      </Button>
 
       {/* navigation controls */}
       <div className="flex items-center gap-3">
         <MdKeyboardArrowLeft
           className="size-6 cursor-pointer font-bold"
-          // onClick={handlePrevClick}
+          onClick={handlePrevClick}
         />
         <MdKeyboardArrowRight
           className="size-6 cursor-pointer font-bold"
-          // onClick={handleNextClick}
+          onClick={handleNextClick}
         />
       </div>
 
       {/* current month and year display */}
-      <h1 className="hidden text-xl lg:block">January 13 2025</h1>
+      <h1 className="hidden text-xl lg:block">
+        {dateDisplay
+          ? userSelectedDate.format(
+              "MMMM D, YYYY",
+            )
+          : dayjs(new Date(dayjs().year(), selectedMonthIndex)).format(
+              "MMMM YYYY",
+            )}
+      </h1>
     </div>
   );
 }

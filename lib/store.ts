@@ -1,11 +1,11 @@
-import dayjs, { Dayjs } from 'dayjs';
-import { create } from 'zustand'
+import dayjs, { Dayjs } from "dayjs";
+import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
-import { getMonth } from './getDate';
+import { getMonth } from "./getDate";
 
 interface ViewStoreType {
-  selectedView: string,
-  setView: (value: string) => void
+  selectedView: string;
+  setView: (value: string) => void;
 }
 
 interface DateStoreType {
@@ -17,18 +17,18 @@ interface DateStoreType {
 }
 
 export const useViewStore = create<ViewStoreType>()(
-devtools(
-  persist(
-    (set) => ({
-      selectedView: "month",
-      setView: (value: string) => {
-        set({selectedView: value})
-      },
-    }),
-    {name: "calendar_view", skipHydration: true}
-  )
-)
-)
+  devtools(
+    persist(
+      (set) => ({
+        selectedView: "month",
+        setView: (value: string) => {
+          set({ selectedView: value });
+        },
+      }),
+      { name: "calendar_view", skipHydration: true },
+    ),
+  ),
+);
 
 export const useDateStore = create<DateStoreType>()(
   devtools(
@@ -44,7 +44,7 @@ export const useDateStore = create<DateStoreType>()(
           set({ twoDMonthArray: getMonth(index), selectedMonthIndex: index });
         },
       }),
-      { name: "date_data", skipHydration: true }
-    )
-  )
-)
+      { name: "date_data", skipHydration: true },
+    ),
+  ),
+);
