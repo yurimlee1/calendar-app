@@ -1,3 +1,4 @@
+import { useDateStore, useEventStore } from '@/lib/store'
 import { cn } from '@/lib/utils'
 import dayjs from 'dayjs'
 import React from 'react'
@@ -13,12 +14,21 @@ export default function MonthViewBox({
 
   const isFirstDayOfMonth = day.date() === 1
   const isToday = day.format("DD-MM-YY") === dayjs().format("DD-MM-YY")
+  const { setDate } = useDateStore()
+  const { openPopover } = useEventStore()
+  const handleClick = (e: React.MouseEvent) => {
+    e.preventDefault()
+    setDate(day)
+    openPopover()
+  }
 
   return (
     <div className={cn(
       'group relative flex flex-col items-center gap-y-2 border',
       'transition-all hover:bg-violet-50'
-    )}>
+    )}
+    onClick={handleClick}
+    >
       <div className="flex flex-col items-center">
         {rowIndex === 0 && (
           <h4 className='text-xs text-gray-500'>

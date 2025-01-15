@@ -1,5 +1,5 @@
 import { getHours, getWeek, isCurrentDay } from "@/lib/getDate";
-import { useDateStore } from "@/lib/store";
+import { useDateStore, useEventStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 import dayjs from "dayjs";
@@ -7,7 +7,8 @@ import React, { useEffect, useState } from "react";
 
 export default function DayView() {
   const [currentTime, setCurrentTime] = useState(dayjs());
-  const { userSelectedDate } = useDateStore();
+  const { userSelectedDate, setDate } = useDateStore();
+  const { openPopover } = useEventStore()
   const Days = getWeek(userSelectedDate);
 
   useEffect(() => {
@@ -60,12 +61,15 @@ export default function DayView() {
             ))}
           </div>
 
-          {/*  */}
           <div className="relative border-r border-gray-300">
             {getHours.map((hour, i) => (
               <div
                 key={i}
                 className="relative flex h-16 cursor-pointer flex-col items-center gap-y-2 border-b border-gray-300 hover:bg-gray-100"
+                onClick={() => {
+                  setDate(userSelectedDate.hour(hour.hour()))
+                  openPopover()
+                }}
               ></div>
             ))}
 

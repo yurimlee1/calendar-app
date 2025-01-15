@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { getHours, getWeek } from "@/lib/getDate";
-import { useDateStore } from "@/lib/store";
+import { useDateStore, useEventStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
 import dayjs from "dayjs";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 
 export default function WeekView() {
   const [currentTime, setCurrentTime] = useState(dayjs());
-  const { userSelectedDate } = useDateStore();
+  const { userSelectedDate, setDate } = useDateStore();
   const Days = getWeek(userSelectedDate);
+  const { openPopover } = useEventStore();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -78,6 +79,10 @@ export default function WeekView() {
                   <div
                     key={i}
                     className="relative flex h-16 cursor-pointer flex-col items-center gap-y-2 border-b border-gray-300 hover:bg-gray-100"
+                    onClick={() => {
+                      setDate(dayDate.hour(hour.hour()))
+                      openPopover()
+                    }}
                   ></div>
                 ))}
 

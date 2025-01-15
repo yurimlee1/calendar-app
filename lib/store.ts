@@ -48,3 +48,34 @@ export const useDateStore = create<DateStoreType>()(
     ),
   ),
 );
+
+export type CalendarEventType = {
+  id: string
+  title: string
+  date: dayjs.Dayjs
+  descirption: string
+}
+
+type EventStore = {
+  events: CalendarEventType[]
+  isPopoverOpen: boolean
+  isEventSummaryOpen: boolean
+  selectedEvent: CalendarEventType | null
+  setEvents: (events: CalendarEventType[]) => void
+  openPopover: () => void
+  closePopover: () => void
+  openEventSummary: (event: CalendarEventType) => void
+  closeEventSummary: () => void
+}
+
+export const useEventStore = create<EventStore>((set) => ({
+  events: [],
+  isPopoverOpen: false,
+  isEventSummaryOpen: false,
+  selectedEvent: null,
+  setEvents: (events) => set({ events }),
+  openPopover: () => set({ isPopoverOpen: true }),
+  closePopover: () => set({ isPopoverOpen: false }),
+  openEventSummary: (event) => set({ isEventSummaryOpen: true, selectedEvent: event }),
+  closeEventSummary: () => set({ isEventSummaryOpen: false, selectedEvent: null }),
+}))
