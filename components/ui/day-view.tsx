@@ -4,11 +4,12 @@ import { cn } from "@/lib/utils";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
+import { EventRenderer } from "./event-renderer";
 
 export default function DayView() {
   const [currentTime, setCurrentTime] = useState(dayjs());
   const { userSelectedDate, setDate } = useDateStore();
-  const { openPopover } = useEventStore()
+  const { openPopover, events } = useEventStore();
   const Days = getWeek(userSelectedDate);
 
   useEffect(() => {
@@ -67,10 +68,16 @@ export default function DayView() {
                 key={i}
                 className="relative flex h-16 cursor-pointer flex-col items-center gap-y-2 border-b border-gray-300 hover:bg-gray-100"
                 onClick={() => {
-                  setDate(userSelectedDate.hour(hour.hour()))
-                  openPopover()
+                  setDate(userSelectedDate.hour(hour.hour()));
+                  openPopover();
                 }}
-              ></div>
+              >
+                <EventRenderer
+                  events={events}
+                  date={userSelectedDate.hour(hour.hour())}
+                  view="day"
+                />
+              </div>
             ))}
 
             {/* draw a live linear indicator */}

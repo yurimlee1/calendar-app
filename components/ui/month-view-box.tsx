@@ -2,6 +2,7 @@ import { useDateStore, useEventStore } from '@/lib/store'
 import { cn } from '@/lib/utils'
 import dayjs from 'dayjs'
 import React from 'react'
+import { EventRenderer } from './event-renderer'
 
 export default function MonthViewBox({
   day, rowIndex,
@@ -15,7 +16,7 @@ export default function MonthViewBox({
   const isFirstDayOfMonth = day.date() === 1
   const isToday = day.format("DD-MM-YY") === dayjs().format("DD-MM-YY")
   const { setDate } = useDateStore()
-  const { openPopover } = useEventStore()
+  const { openPopover, events } = useEventStore()
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault()
     setDate(day)
@@ -43,6 +44,7 @@ export default function MonthViewBox({
         </h4>
 
       </div>
+      <EventRenderer date={day} view='month' events={events} />
     </div>
   )
 }

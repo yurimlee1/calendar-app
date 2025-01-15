@@ -5,7 +5,11 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ChevronDown } from "lucide-react";
 
-export default function AddTime() {
+export default function AddTime({
+  onTimeSelect,
+} : {
+  onTimeSelect: (time:string) => void
+}) {
   const [isOpen, setIsOpen] = useState(false)
   const [selectedTime, setSelectedTime] = useState("00:00")
   const dropdownRef = useRef<HTMLDivElement>(null)
@@ -40,6 +44,7 @@ export default function AddTime() {
 
   const handleTimeSelect = (time: string) => {
     setSelectedTime(time)
+    onTimeSelect(time)
     setIsOpen(false)
   };
 

@@ -1,4 +1,6 @@
 import dayjs from "dayjs";
+import weekOfYear from 'dayjs/plugin/weekOfYear'
+dayjs.extend(weekOfYear)
 
 export const isCurrentDay = (day: dayjs.Dayjs) => {
   return day.isSame(dayjs(), "day");
@@ -37,3 +39,25 @@ export const getWeek = (date: dayjs.Dayjs) => {
 export const getHours = Array.from({ length: 24 }, (_, i) =>
   dayjs().startOf("day").add(i, "hour"),
 );
+
+export const getWeekNum = (monthIndex: number) => {
+  const year = dayjs().year()
+  const firstDayOfMonth = dayjs(new Date(year, monthIndex, 1))
+  const lastDayOfMonth = dayjs(new Date(year, monthIndex + 1, 0))
+
+  let weeks: number[] = [];
+
+  let currentDay = firstDayOfMonth;
+  while (
+    currentDay.isBefore(lastDayOfMonth) ||
+    currentDay.isSame(lastDayOfMonth)
+  ) {
+    const weekNum = currentDay.week();
+    if (!weeks.includes(weekNum)) {
+      weeks.push(weekNum)
+    }
+    currentDay = currentDay.add(1, 'day')
+  }
+
+  return weeks
+}

@@ -16,6 +16,11 @@ interface DateStoreType {
   setMonth: (index: number) => void;
 }
 
+interface ToggleSidebarType {
+  isSidebarOpen: boolean
+  setSidebarOpen: () => void
+}
+
 export const useViewStore = create<ViewStoreType>()(
   devtools(
     persist(
@@ -53,7 +58,7 @@ export type CalendarEventType = {
   id: string
   title: string
   date: dayjs.Dayjs
-  descirption: string
+  description: string
 }
 
 type EventStore = {
@@ -79,3 +84,12 @@ export const useEventStore = create<EventStore>((set) => ({
   openEventSummary: (event) => set({ isEventSummaryOpen: true, selectedEvent: event }),
   closeEventSummary: () => set({ isEventSummaryOpen: false, selectedEvent: null }),
 }))
+
+export const useToggleSidebarStore = create<ToggleSidebarType>()(
+  (set, get) => ({
+    isSidebarOpen: true,
+    setSidebarOpen: () => {
+      set({ isSidebarOpen: !get().isSidebarOpen })
+    }
+  })
+)

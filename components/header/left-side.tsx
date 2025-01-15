@@ -5,7 +5,7 @@ import { Menu } from "lucide-react";
 import Image from "next/image";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
-import { useDateStore, useViewStore } from "@/lib/store";
+import { useDateStore, useToggleSidebarStore, useViewStore } from "@/lib/store";
 import dayjs from "dayjs";
 
 export default function HeaderLeft() {
@@ -13,7 +13,9 @@ export default function HeaderLeft() {
   const { userSelectedDate, setDate, setMonth, selectedMonthIndex } =
     useDateStore();
   const { selectedView } = useViewStore();
-
+  const { setSidebarOpen } = useToggleSidebarStore();
+  const dateDisplay = selectedView == "day";
+    
   const handleTodayClick = () => {
     switch (selectedView) {
       case "month":
@@ -63,13 +65,11 @@ export default function HeaderLeft() {
     }
   };
 
-  const dateDisplay = selectedView == "day";
-
   return (
     <div className="flex items-center gap-3">
       {/* sidebar toggle and calendar icon */}
       <div className="hidden items-center gap-1 lg:flex">
-        <Button variant="ghost" className="rounded-full p-2">
+        <Button variant="ghost" className="rounded-full p-2" onClick={() => setSidebarOpen()}>
           <Menu className="size-6" />
         </Button>
         {/* <Image src={} className="" /> */}
