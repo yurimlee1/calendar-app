@@ -13,6 +13,7 @@ import { FiClock } from "react-icons/fi";
 import { cn } from "@/lib/utils";
 import AddTime from "./add-time";
 import { createEvent } from "@/app/actions/event-actions";
+import { useTheme } from "next-themes";
 
 interface EventPopoverProps {
   isOpen: boolean;
@@ -30,6 +31,7 @@ export default function EventPopover({
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean | null>(null);
   const [isPending, startTransition] = useTransition();
+  const { theme } = useTheme();
 
   useEffect(() => {
     const handleclickOutside = (event: MouseEvent) => {
@@ -102,21 +104,20 @@ export default function EventPopover({
           </Button>
         </div>
 
-        {/* <form className='space-y-4 p-6' onSubmit={(e) => e.preventDefault()}> */}
         <form className="space-y-4 p-6" action={onSubmit}>
           <div>
             <Input
               type="text"
               name="title"
               placeholder="Add title"
-              className="my-4 rounded-none border-0 border-b text-2xl focus-visible:border-b-2 focus-visible:border-b-blue-600 focus-visible:ring-0 focus-visible:ring-offset-0"
+              className="my-4 rounded-none border-0 border-b text-2xl text-black focus-visible:border-b-2 focus-visible:border-b-blue-600 focus-visible:ring-0 focus-visible:ring-offset-0"
             />
           </div>
 
           <div className="flex items-center space-x-3">
             <FiClock className="size-5 text-gray-600" />
             <div className="flex items-center space-x-3 text-sm">
-              <p>{dayjs(date).format("dddd, MMMM D")}</p>
+              <p className="text-black">{dayjs(date).format("dddd, MMMM D")}</p>
               <AddTime onTimeSelect={setSelectedTime} />
               <input type="hidden" name="date" value={date} />
               <input type="hidden" name="time" value={selectedTime} />
@@ -130,20 +131,20 @@ export default function EventPopover({
               name="description"
               placeholder="Add description"
               className={cn(
-                "w-full rounded-lg border-0 bg-slate-100 pl-7 placeholder:text-slate-600",
+                "w-full rounded-lg border-0 bg-slate-100 pl-7 text-black placeholder:text-slate-600",
                 "focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-ring focus-visible:ring-offset-0",
               )}
             />
           </div>
 
-          <div className="flex justify-end space-x-2">
-            <Button type="submit" disabled={isPending}>
+          <div className="flex justify-end">
+            {error && <p className="mt-2 px-6 text-red-500">{error}</p>}
+            {success && <p className="mt-2 px-6 text-green-500">Success</p>}
+
+            <Button className="space-x-2" type="submit" disabled={isPending}>
               {isPending ? "Saving..." : "Save"}
             </Button>
           </div>
-
-          {error && <p className="mt-2 px-6 text-red-500">{error}</p>}
-          {success && <p className="mt-2 px-6 text-green-500">Success</p>}
         </form>
       </div>
     </div>

@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
@@ -7,12 +7,12 @@ import { ChevronDown } from "lucide-react";
 
 export default function AddTime({
   onTimeSelect,
-} : {
-  onTimeSelect: (time:string) => void
+}: {
+  onTimeSelect: (time: string) => void;
 }) {
-  const [isOpen, setIsOpen] = useState(false)
-  const [selectedTime, setSelectedTime] = useState("00:00")
-  const dropdownRef = useRef<HTMLDivElement>(null)
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedTime, setSelectedTime] = useState("00:00");
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -20,32 +20,32 @@ export default function AddTime({
         dropdownRef.current &&
         !dropdownRef.current.contains(event.target as Node)
       ) {
-        setIsOpen(false)
+        setIsOpen(false);
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside)
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside)
-    }
-  }, [])
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const generateTimeIntervals = () => {
-    const intervals = []
+    const intervals = [];
     for (let hour = 0; hour < 24; hour++) {
       for (let minute = 0; minute < 60; minute += 15) {
         intervals.push(
           `${hour.toString().padStart(2, "0")}:${minute.toString().padStart(2, "0")}`,
-        )
+        );
       }
     }
-    return intervals
+    return intervals;
   };
 
   const handleTimeSelect = (time: string) => {
-    setSelectedTime(time)
-    onTimeSelect(time)
-    setIsOpen(false)
+    setSelectedTime(time);
+    onTimeSelect(time);
+    setIsOpen(false);
   };
 
   return (

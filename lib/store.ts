@@ -17,8 +17,8 @@ interface DateStoreType {
 }
 
 interface ToggleSidebarType {
-  isSidebarOpen: boolean
-  setSidebarOpen: () => void
+  isSidebarOpen: boolean;
+  setSidebarOpen: () => void;
 }
 
 export const useViewStore = create<ViewStoreType>()(
@@ -55,23 +55,23 @@ export const useDateStore = create<DateStoreType>()(
 );
 
 export type CalendarEventType = {
-  id: string
-  title: string
-  date: dayjs.Dayjs
-  description: string
-}
+  id: string;
+  title: string;
+  date: dayjs.Dayjs;
+  description: string;
+};
 
 type EventStore = {
-  events: CalendarEventType[]
-  isPopoverOpen: boolean
-  isEventSummaryOpen: boolean
-  selectedEvent: CalendarEventType | null
-  setEvents: (events: CalendarEventType[]) => void
-  openPopover: () => void
-  closePopover: () => void
-  openEventSummary: (event: CalendarEventType) => void
-  closeEventSummary: () => void
-}
+  events: CalendarEventType[];
+  isPopoverOpen: boolean;
+  isEventSummaryOpen: boolean;
+  selectedEvent: CalendarEventType | null;
+  setEvents: (events: CalendarEventType[]) => void;
+  openPopover: () => void;
+  closePopover: () => void;
+  openEventSummary: (event: CalendarEventType) => void;
+  closeEventSummary: () => void;
+};
 
 export const useEventStore = create<EventStore>((set) => ({
   events: [],
@@ -81,15 +81,17 @@ export const useEventStore = create<EventStore>((set) => ({
   setEvents: (events) => set({ events }),
   openPopover: () => set({ isPopoverOpen: true }),
   closePopover: () => set({ isPopoverOpen: false }),
-  openEventSummary: (event) => set({ isEventSummaryOpen: true, selectedEvent: event }),
-  closeEventSummary: () => set({ isEventSummaryOpen: false, selectedEvent: null }),
-}))
+  openEventSummary: (event) =>
+    set({ isEventSummaryOpen: true, selectedEvent: event }),
+  closeEventSummary: () =>
+    set({ isEventSummaryOpen: false, selectedEvent: null }),
+}));
 
 export const useToggleSidebarStore = create<ToggleSidebarType>()(
   (set, get) => ({
     isSidebarOpen: true,
     setSidebarOpen: () => {
-      set({ isSidebarOpen: !get().isSidebarOpen })
-    }
-  })
-)
+      set({ isSidebarOpen: !get().isSidebarOpen });
+    },
+  }),
+);

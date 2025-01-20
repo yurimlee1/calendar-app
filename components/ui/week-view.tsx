@@ -5,12 +5,14 @@ import { cn } from "@/lib/utils";
 import dayjs from "dayjs";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { EventRenderer } from "./event-renderer";
+import { useTheme } from "next-themes";
 
 export default function WeekView() {
   const [currentTime, setCurrentTime] = useState(dayjs());
   const { userSelectedDate, setDate } = useDateStore();
   const Days = getWeek(userSelectedDate);
   const { openPopover, events } = useEventStore();
+  const { theme } = useTheme();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -29,9 +31,23 @@ export default function WeekView() {
   return (
     <>
       <div className="grid grid-cols-[auto_1fr_1fr_1fr_1fr_1fr_1fr_1fr] place-items-center px-4 py-2">
-        <div className="w-16 border-r border-gray-300">
+        <div
+          className={
+            theme === "dark"
+              ? "w-16 border-r border-gray-600"
+              : "w-16 border-r border-gray-300"
+          }
+        >
           <div className="relative h-16">
-            <div className="absolute top-2 text-xs text-gray-600">GMT -5</div>
+            <div
+              className={
+                theme === "dark"
+                  ? "absolute top-2 text-xs text-gray-300"
+                  : "absolute top-2 text-xs text-gray-600"
+              }
+            >
+              GMT -5
+            </div>
           </div>
         </div>
 
@@ -58,10 +74,22 @@ export default function WeekView() {
       {/*  display each hour for a week */}
       <ScrollArea className="h-[70vh]">
         <div className="grid grid-cols-[auto_1fr_1fr_1fr_1fr_1fr_1fr_1fr] px-4 py-2">
-          <div className="w-16 border-r border-gray-300">
+          <div
+            className={
+              theme === "dark"
+                ? "w-16 border-r border-gray-600"
+                : "w-16 border-r border-gray-300"
+            }
+          >
             {getHours.map((hour, index) => (
               <div key={index} className="relative h-16">
-                <div className="absolute -top-2 text-xs text-gray-600">
+                <div
+                  className={
+                    theme === "dark"
+                      ? "absolute -top-2 text-xs text-gray-300"
+                      : "absolute -top-2 text-xs text-gray-600"
+                  }
+                >
                   {hour.format("HH:mm")}
                 </div>
               </div>
@@ -74,12 +102,23 @@ export default function WeekView() {
 
             return (
               // draws columns
-              <div key={index} className="relative border-r border-gray-300">
+              <div
+                key={index}
+                className={
+                  theme === "dark"
+                    ? "relative border-r border-gray-600"
+                    : "relative border-r border-gray-300"
+                }
+              >
                 {getHours.map((hour, i) => (
                   // draws rows
                   <div
                     key={i}
-                    className="relative flex h-16 cursor-pointer flex-col items-center gap-y-2 border-b border-gray-300 hover:bg-gray-100"
+                    className={
+                      theme === "dark"
+                        ? "relative flex h-16 cursor-pointer flex-col items-center gap-y-2 border-b border-gray-600 hover:bg-gray-100"
+                        : "relative flex h-16 cursor-pointer flex-col items-center gap-y-2 border-b border-gray-300 hover:bg-gray-100"
+                    }
                     onClick={() => {
                       setDate(dayDate.hour(hour.hour()));
                       openPopover();

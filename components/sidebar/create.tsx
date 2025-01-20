@@ -19,7 +19,6 @@ export default function Create() {
   return (
     <>
       <Button
-        // variant="ghost"
         className="w-[150px] justify-start rounded-full py-6 shadow"
         onClick={handleOpenPopover}
       >

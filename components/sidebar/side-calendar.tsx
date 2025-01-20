@@ -12,7 +12,7 @@ export default function SideCalendar() {
   return (
     <div className="my-6 p-2">
       <div className="flex items-center justify-between">
-        <h4 className="text-sm px-8">
+        <h4 className="px-8 text-sm">
           {dayjs(new Date(dayjs().year(), selectedMonthIndex)).format(
             "MMMM YYYY",
           )}
@@ -54,23 +54,24 @@ export default function SideCalendar() {
           ))}
         </div>
         {/* date grid */}
-        <div className='grid grid-cols-7 grid-rows-5 gap-1 gap-y-3 rounded-sm p-1 text-xs'>
-        {twoDMonthArray.map((row, i) => (
-          <Fragment key={i}>
-            {row.map((day, index) => (
-              <button
-                key={index}
-                className={cn(
-                  "flex h-5 w-5 items-center justify-center rounded-full",
-                  day.format("DD-MM-YY") === dayjs().format("DD-MM-YY") &&
-                    "bg-blue-600 text-white",
-                )}
-              >
-                <span>{day.format("D")}</span>
-              </button>
-            ))}
-          </Fragment>
-        ))}</div>
+        <div className="grid grid-cols-7 grid-rows-5 gap-1 gap-y-3 rounded-sm p-1 text-xs">
+          {twoDMonthArray.map((row, i) => (
+            <Fragment key={i}>
+              {row.map((day, index) => (
+                <button
+                  key={index}
+                  className={cn(
+                    "flex h-5 w-5 items-center justify-center rounded-full",
+                    day.format("DD-MM-YY") === dayjs().format("DD-MM-YY") &&
+                      "bg-blue-600 text-white",
+                  )}
+                >
+                  <span>{day.format("D")}</span>
+                </button>
+              ))}
+            </Fragment>
+          ))}
+        </div>
       </div>
     </div>
   );

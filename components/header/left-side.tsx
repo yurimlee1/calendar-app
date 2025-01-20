@@ -15,7 +15,7 @@ export default function HeaderLeft() {
   const { selectedView } = useViewStore();
   const { setSidebarOpen } = useToggleSidebarStore();
   const dateDisplay = selectedView == "day";
-    
+
   const handleTodayClick = () => {
     switch (selectedView) {
       case "month":
@@ -69,7 +69,11 @@ export default function HeaderLeft() {
     <div className="flex items-center gap-3">
       {/* sidebar toggle and calendar icon */}
       <div className="hidden items-center gap-1 lg:flex">
-        <Button variant="ghost" className="rounded-full p-2" onClick={() => setSidebarOpen()}>
+        <Button
+          variant="ghost"
+          className="rounded-full p-2"
+          onClick={() => setSidebarOpen()}
+        >
           <Menu className="size-6" />
         </Button>
         {/* <Image src={} className="" /> */}
@@ -97,9 +101,7 @@ export default function HeaderLeft() {
       {/* current month and year display */}
       <h1 className="hidden text-xl lg:block">
         {dateDisplay
-          ? userSelectedDate.format(
-              "MMMM D, YYYY",
-            )
+          ? userSelectedDate.format("MMMM D, YYYY")
           : dayjs(new Date(dayjs().year(), selectedMonthIndex)).format(
               "MMMM YYYY",
             )}
